@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Pinky!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&amp;family=Quicksand:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Quicksand', sans-serif;
+    }
+    
+    .playful-font {
+      font-family: 'Baloo 2', cursive;
+    }
+    
+    .screen {
+      display: none;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .screen.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+    
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100%) rotate(720deg); opacity: 0; }
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -20px;
+      animation: confetti-fall linear forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    @keyframes balloon-rise {
+      0% { transform: translateY(100%) scale(0); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-120%) scale(1); opacity: 0; }
+    }
+    
+    .balloon {
+      position: fixed;
+      font-size: 3rem;
+      bottom: -50px;
+      animation: balloon-rise 4s ease-out forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+      50% { transform: scale(1) rotate(180deg); opacity: 1; }
+    }
+    
+    .sparkle {
+      position: fixed;
+      font-size: 1.5rem;
+      animation: sparkle 1s ease-in-out forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px) rotate(-1deg); }
+      75% { transform: translateX(10px) rotate(1deg); }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+    }
+    
+    .glow-btn {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    @keyframes bounce-in {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    
+    .bounce-in {
+      animation: bounce-in 0.5s ease-out forwards;
+    }
+    
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+    
+    .wiggle {
+      animation: wiggle 0.3s ease-in-out infinite;
+    }
+    
+    @keyframes flash-red {
+      0%, 100% { background-color: inherit; }
+      50% { background-color: rgba(239, 68, 68, 0.5); }
+    }
+    
+    .flash-wrong {
+      animation: flash-red 0.3s ease-in-out 3;
+    }
+    
+    @keyframes screen-shake-intense {
+      0%, 100% { transform: translate(0); }
+      10% { transform: translate(-8px, -8px); }
+      20% { transform: translate(8px, 8px); }
+      30% { transform: translate(-8px, 8px); }
+      40% { transform: translate(8px, -8px); }
+      50% { transform: translate(-6px, -6px); }
+      60% { transform: translate(6px, 6px); }
+      70% { transform: translate(-4px, 4px); }
+      80% { transform: translate(4px, -4px); }
+      90% { transform: translate(-2px, -2px); }
+    }
+    
+    .shake-intense {
+      animation: screen-shake-intense 0.6s ease-in-out;
+    }
+    
+    @keyframes pulse-big {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+    
+    .pulse-big {
+      animation: pulse-big 0.5s ease-in-out;
+    }
+    
+    @keyframes rotate-spin {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    
+    .spin {
+      animation: rotate-spin 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    @keyframes glow-flash {
+      0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.2); }
+      50% { box-shadow: 0 0 60px rgba(34, 197, 94, 0.8), inset 0 0 20px rgba(34, 197, 94, 0.4); }
+    }
+    
+    .glow-success {
+      animation: glow-flash 0.6s ease-in-out;
+    }
+    
+    .runaway-btn {
+      transition: all 0.15s ease-out;
+      position: relative;
+    }
+    
+    @keyframes text-pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .text-pop {
+      animation: text-pop 0.4s ease-out forwards;
+    }
+    
+    @keyframes slide-up {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .slide-up {
+      animation: slide-up 0.6s ease-out forwards;
+    }
+    
+    .treasure-map {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%);
+      border: 4px dashed #92400e;
+      position: relative;
+    }
+    
+    .treasure-map::before {
+      content: '🗺���';
+      position: absolute;
+      top: -15px;
+      left: -15px;
+      font-size: 2rem;
+    }
+    
+    @keyframes treasure-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(245, 158, 11, 0.8); }
+    }
+    
+    .treasure-glow {
+      animation: treasure-glow 2s ease-in-out infinite;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #f472b6 100%);
+    }
+    
+    .screen-gradient-1 {
+      background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+    }
+    
+    .screen-gradient-2 {
+      background: linear-gradient(180deg, #ede9fe 0%, #ddd6fe 100%);
+    }
+    
+    .screen-gradient-3 {
+      background: linear-gradient(180deg, #cffafe 0%, #a5f3fc 100%);
+    }
+    
+    .screen-gradient-4 {
+      background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+    }
+    
+    .screen-gradient-5 {
+      background: linear-gradient(180deg, #fef3c7 0%, #fde68a 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app-wrapper" class="w-full h-full min-h-full relative"><!-- SCREEN 1: Landing -->
+   <div id="screen1" class="screen active screen-gradient-1 flex-col items-center justify-center min-h-full p-6 text-center relative overflow-hidden">
+    <div class="z-10 flex flex-col items-center">
+     <div class="text-6xl mb-4" style="animation: float 3s ease-in-out infinite;">
+      🎂
+     </div>
+     <h1 class="playful-font text-4xl md:text-6xl font-extrabold text-pink-600 mb-4 drop-shadow-lg">🎉 Happy Birthday, Pinky! 🎉</h1>
+     <p class="text-lg md:text-xl text-purple-700 mb-8 max-w-md leading-relaxed">Before cake, gifts, or celebrations…<br><span class="font-semibold">Please complete this very serious verification.</span></p><button onclick="goToScreen(2)" class="glow-btn bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-4 px-8 rounded-full text-xl shadow-xl transform hover:scale-105 transition-all duration-300"> 👉 Begin the Test </button>
+    </div>
+    <footer class="absolute bottom-4 flex flex-col items-center">
+     <div id="footer-text" class="text-sm text-pink-400 italic">
+      Powered by friendship, chaos &amp; cake 🍰
+     </div>
+     <div class="text-xs text-pink-300 mt-1">
+      Copyright by Vibecoder Rinku
+     </div>
+    </footer>
+   </div><!-- SCREEN 2: Age Question -->
+   <div id="screen2" class="screen screen-gradient-2 flex-col items-center justify-center min-h-full p-6 text-center relative">
+    <div class="z-10 flex flex-col items-center max-w-lg">
+     <div class="text-5xl mb-4">
+      🎈
+     </div>
+     <h2 class="playful-font text-3xl md:text-4xl font-bold text-purple-700 mb-6">How old are you in 2026?</h2>
+     <div class="space-y-4 w-full max-w-sm"><!-- Wrong answer 1 --> <button onclick="wrongAgeAnswer(this)" class="w-full bg-white hover:bg-purple-50 text-purple-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all duration-300"> 26 (it's 2026!) </button> <!-- Runaway button container -->
+      <div id="runaway-container" class="relative h-16 w-full"><button id="runaway-btn" onmouseenter="runAway()" onclick="almostAnswer()" class="runaway-btn absolute left-1/2 -translate-x-1/2 bg-white hover:bg-purple-50 text-purple-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-purple-200 transition-all duration-300 whitespace-nowrap"> My real age </button>
+      </div>
+      <div id="runaway-tooltip" class="text-sm text-purple-500 italic opacity-0 transition-opacity duration-300">
+       "Almost. Not today." 😏
+      </div><!-- Correct answer --> <button onclick="correctAgeAnswer()" class="w-full bg-white hover:bg-purple-50 text-purple-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all duration-300"> I am AGE-LESS 😌 </button>
+     </div><!-- Response messages -->
+     <div id="age-response" class="mt-6 text-xl font-bold hidden"></div><!-- Proceed button (hidden initially) --> <button id="age-proceed" onclick="goToScreen(3)" class="hidden mt-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full shadow-xl transform hover:scale-105 transition-all duration-300"> 👉 Proceed, Wise One </button>
+    </div>
+   </div><!-- SCREEN 3: Personality Trap -->
+   <div id="screen3" class="screen screen-gradient-3 flex-col items-center justify-center min-h-full p-6 text-center relative">
+    <div class="z-10 flex flex-col items-center max-w-lg">
+     <div class="text-5xl mb-4">
+      🔮
+     </div>
+     <h2 class="playful-font text-3xl md:text-4xl font-bold text-teal-700 mb-6">Pick the statement that describes you BEST:</h2>
+     <div class="space-y-4 w-full"><button onclick="personalityAnswer('A')" class="w-full bg-white hover:bg-teal-50 text-teal-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-teal-200 hover:border-teal-400 transition-all duration-300 text-left"> A. "I am calm, serene, and introvertish" </button> <button onclick="personalityAnswer('B')" class="w-full bg-white hover:bg-teal-50 text-teal-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-teal-200 hover:border-teal-400 transition-all duration-300 text-left"> B. "I say I'm low-maintenance but have very specific standards." </button> <button onclick="personalityAnswer('C')" class="w-full bg-white hover:bg-teal-50 text-teal-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-teal-200 hover:border-teal-400 transition-all duration-300 text-left"> C. "I don't need gifts, I just need love." </button>
+     </div>
+     <div id="personality-response" class="mt-6 text-xl font-bold hidden"></div><button id="personality-proceed" onclick="goToScreen(4)" class="hidden mt-6 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-bold py-3 px-6 rounded-full shadow-xl transform hover:scale-105 transition-all duration-300"> 👉 Continue, Self-Aware Pinky </button>
+    </div>
+   </div><!-- SCREEN 4: Skills Check -->
+   <div id="screen4" class="screen screen-gradient-4 flex-col items-center justify-center min-h-full p-6 text-center relative">
+    <div class="z-10 flex flex-col items-center max-w-lg">
+     <div class="text-5xl mb-4">
+      ������
+     </div>
+     <h2 class="playful-font text-3xl md:text-4xl font-bold text-emerald-700 mb-6">What is your strongest skill?</h2>
+     <div class="space-y-4 w-full"><button onclick="skillAnswer(0)" class="w-full bg-white hover:bg-emerald-50 text-emerald-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-emerald-200 hover:border-emerald-400 transition-all duration-300"> ✨ Looking amazing with zero effort </button> <button onclick="skillAnswer(1)" class="w-full bg-white hover:bg-emerald-50 text-emerald-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-emerald-200 hover:border-emerald-400 transition-all duration-300"> 🧠 Giving excellent advice you don't always take </button> <button onclick="skillAnswer(2)" class="w-full bg-white hover:bg-emerald-50 text-emerald-700 font-semibold py-4 px-6 rounded-2xl shadow-lg border-2 border-emerald-200 hover:border-emerald-400 transition-all duration-300"> 😇 Being 'fine' (when you are not) </button>
+     </div>
+     <div id="skill-response" class="mt-6 text-xl font-bold hidden"></div><button id="skill-proceed" onclick="goToScreen(5)" class="hidden mt-6 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold py-3 px-6 rounded-full shadow-xl transform hover:scale-105 transition-all duration-300"> 🎁 Unlock Your Gift </button>
+    </div>
+   </div><!-- SCREEN 5: Treasure Reveal -->
+   <div id="screen5" class="screen screen-gradient-5 flex-col items-center justify-center min-h-full p-6 text-center relative overflow-hidden">
+    <div class="z-10 flex flex-col items-center max-w-lg">
+     <div class="text-6xl mb-4 bounce-in">
+      🎁
+     </div>
+     <h2 id="congrats-title" class="playful-font text-3xl md:text-5xl font-bold text-amber-700 mb-4 slide-up">Congratulations, Pinky! 🎉</h2>
+     <div class="bg-white/80 backdrop-blur rounded-3xl p-6 shadow-2xl mb-6 slide-up" style="animation-delay: 0.2s;">
+      <p class="text-lg text-amber-800 mb-4">You have successfully completed:</p>
+      <div class="space-y-2 text-left">
+       <div class="flex items-center gap-2 text-emerald-600 font-semibold"><span class="text-2xl">✔</span> Age acceptance
+       </div>
+       <div class="flex items-center gap-2 text-emerald-600 font-semibold"><span class="text-2xl">✔</span> Personality audit
+       </div>
+       <div class="flex items-center gap-2 text-emerald-600 font-semibold"><span class="text-2xl">✔</span> Compliance test
+       </div>
+      </div>
+     </div><!-- Treasure Map -->
+     <div class="treasure-map treasure-glow rounded-2xl p-6 max-w-sm slide-up" style="animation-delay: 0.4s;">
+      <h3 class="playful-font text-2xl font-bold text-amber-900 mb-3">🗺️ Treasure Map</h3>
+      <p class="text-amber-800 text-lg leading-relaxed">Your actual gift is hidden where you keep your favourite <span id="treasure-blank" class="font-bold text-pink-600 underline decoration-wavy decoration-pink-400">snacks</span>! 🎁</p>
+     </div><button onclick="finalCelebration()" class="mt-8 bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-full text-xl shadow-xl transform hover:scale-105 transition-all duration-300 slide-up" style="animation-delay: 0.6s;"> 💖 End With Cake 🎂 </button>
+    </div>
+   </div><!-- Final Celebration Overlay -->
+   <div id="final-overlay" class="fixed inset-0 bg-gradient-to-br from-pink-500/90 via-purple-500/90 to-amber-500/90 flex-col items-center justify-center z-50 hidden">
+    <div class="text-center text-white p-8">
+     <div class="text-8xl mb-6">
+      🎂
+     </div>
+     <h1 id="final-message" class="playful-font text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Happy Birthday, Pinky!</h1>
+     <p class="text-xl md:text-2xl opacity-90 mb-8">May your year be filled with joy, laughter, and everything your heart desires! 💖</p><button onclick="restartQuiz()" class="bg-white/20 hover:bg-white/30 backdrop-blur text-white font-bold py-3 px-6 rounded-full border-2 border-white/50 transition-all duration-300"> 🔄 Play Again </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      birthday_name: 'Ambika',
+      treasure_clue: 'snacks',
+      footer_text: 'Powered by friendship, chaos & cake 🍰'
+    };
+    
+    let config = { ...defaultConfig };
+    let runawayCount = 0;
+    
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...defaultConfig, ...newConfig };
+          updateUI();
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['birthday_name', cfg.birthday_name || defaultConfig.birthday_name],
+          ['treasure_clue', cfg.treasure_clue || defaultConfig.treasure_clue],
+          ['footer_text', cfg.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+    
+    function updateUI() {
+      const name = config.birthday_name || defaultConfig.birthday_name;
+      const clue = config.treasure_clue || defaultConfig.treasure_clue;
+      const footer = config.footer_text || defaultConfig.footer_text;
+      
+      document.getElementById('congrats-title').innerHTML = `Congratulations, ${name}! 🎉`;
+      document.getElementById('final-message').innerHTML = `Happy Birthday, ${name}!`;
+      document.getElementById('treasure-blank').textContent = clue;
+      document.getElementById('footer-text').textContent = footer;
+    }
+    
+    function goToScreen(num) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('screen' + num);
+      target.classList.add('active');
+      
+      if (num === 1) {
+        triggerConfetti();
+      }
+      if (num === 5) {
+        setTimeout(() => triggerBalloons(), 500);
+        setTimeout(() => triggerSparkles(), 800);
+      }
+    }
+    
+    function triggerConfetti() {
+      const colors = ['#ec4899', '#8b5cf6', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'];
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+          confetti.style.animationDelay = Math.random() * 0.5 + 's';
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 4000);
+        }, i * 50);
+      }
+    }
+    
+    function triggerBalloons() {
+      const balloons = ['🎈', '🎈', '🎈', '🎉', '🎊', '💖'];
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          const balloon = document.createElement('div');
+          balloon.className = 'balloon';
+          balloon.textContent = balloons[Math.floor(Math.random() * balloons.length)];
+          balloon.style.left = Math.random() * 100 + '%';
+          balloon.style.animationDuration = (Math.random() * 2 + 3) + 's';
+          document.body.appendChild(balloon);
+          setTimeout(() => balloon.remove(), 5000);
+        }, i * 200);
+      }
+    }
+    
+    function triggerSparkles() {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.className = 'sparkle';
+          sparkle.textContent = '✨';
+          sparkle.style.left = Math.random() * 100 + '%';
+          sparkle.style.top = Math.random() * 100 + '%';
+          sparkle.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+          document.body.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 1500);
+        }, i * 100);
+      }
+    }
+    
+    // Audio synthesis functions
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playWrongBuzz() {
+      const now = audioContext.currentTime;
+      // Deeper, more noticeable buzz with two oscillators
+      const osc1 = audioContext.createOscillator();
+      const osc2 = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      osc1.frequency.setValueAtTime(120, now);
+      osc1.frequency.exponentialRampToValueAtTime(60, now + 0.4);
+      
+      osc2.frequency.setValueAtTime(100, now);
+      osc2.frequency.exponentialRampToValueAtTime(50, now + 0.4);
+      
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+      
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.4);
+      osc2.stop(now + 0.4);
+    }
+    
+    function playSuccessChime() {
+      const now = audioContext.currentTime;
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, index) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.frequency.setValueAtTime(freq, now);
+        gain.gain.setValueAtTime(0.2, now + index * 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.1 + 0.5);
+        osc.start(now + index * 0.1);
+        osc.stop(now + index * 0.1 + 0.5);
+      });
+    }
+    
+    function playCelebration() {
+      const now = audioContext.currentTime;
+      // Uplifting celebration melody
+      const notes = [523.25, 587.33, 659.25, 783.99, 659.25];
+      const durations = [0.2, 0.2, 0.3, 0.4, 0.5];
+      
+      notes.forEach((freq, index) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'sine';
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        
+        const startTime = now + index * 0.15;
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.25, startTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + durations[index]);
+        
+        osc.start(startTime);
+        osc.stop(startTime + durations[index]);
+      });
+    }
+    
+    function playHappyBirthday() {
+      const now = audioContext.currentTime;
+      // Happy Birthday melody
+      const melody = [
+        { freq: 262, duration: 0.4 },
+        { freq: 262, duration: 0.4 },
+        { freq: 294, duration: 0.8 },
+        { freq: 262, duration: 0.8 },
+        { freq: 349, duration: 0.8 },
+        { freq: 330, duration: 1.2 },
+        { freq: 262, duration: 0.4 },
+        { freq: 262, duration: 0.4 },
+        { freq: 294, duration: 0.8 },
+        { freq: 262, duration: 0.8 },
+        { freq: 392, duration: 0.8 },
+        { freq: 349, duration: 1.2 },
+        { freq: 262, duration: 0.4 },
+        { freq: 262, duration: 0.4 },
+        { freq: 523, duration: 0.8 },
+        { freq: 440, duration: 0.8 },
+        { freq: 349, duration: 0.8 },
+        { freq: 330, duration: 0.8 },
+        { freq: 294, duration: 1.6 }
+      ];
+      
+      let totalTime = 0;
+      melody.forEach((note) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'sine';
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        
+        const startTime = now + totalTime;
+        osc.frequency.setValueAtTime(note.freq, startTime);
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
+        
+        osc.start(startTime);
+        osc.stop(startTime + note.duration);
+        
+        totalTime += note.duration;
+      });
+    }
+    
+    function wrongAgeAnswer(btn) {
+      playWrongBuzz();
+      const response = document.getElementById('age-response');
+      response.innerHTML = '❌ No ❤️ that\'s not how calendars work.';
+      response.className = 'mt-6 text-xl font-bold text-red-500 text-pop';
+      response.classList.remove('hidden');
+      
+      btn.classList.add('shake', 'flash-wrong', 'pulse-big');
+      document.querySelector('#screen2').classList.add('shake-intense');
+      
+      // Trigger multiple confetti bursts for extra impact
+      triggerWrongConfetti();
+      
+      setTimeout(() => {
+        btn.classList.remove('shake', 'flash-wrong', 'pulse-big');
+        document.querySelector('#screen2').classList.remove('shake-intense');
+      }, 600);
+    }
+    
+    function runAway() {
+      const btn = document.getElementById('runaway-btn');
+      const container = document.getElementById('runaway-container');
+      const tooltip = document.getElementById('runaway-tooltip');
+      
+      runawayCount++;
+      
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = btn.getBoundingClientRect();
+      
+      const maxX = containerRect.width - btnRect.width;
+      const maxY = 30;
+      
+      let newX = Math.random() * maxX - maxX/2;
+      let newY = (Math.random() - 0.5) * maxY;
+      
+      newX = Math.max(-maxX/2, Math.min(maxX/2, newX));
+      
+      btn.style.transform = `translate(calc(-50% + ${newX}px), ${newY}px)`;
+      btn.classList.add('wiggle', 'pulse-big');
+      
+      tooltip.style.opacity = '1';
+      setTimeout(() => {
+        tooltip.style.opacity = '0';
+      }, 1500);
+      
+      setTimeout(() => {
+        btn.classList.remove('wiggle', 'pulse-big');
+      }, 300);
+    }
+    
+    function almostAnswer() {
+      const response = document.getElementById('age-response');
+      response.innerHTML = '🏃‍♀️ Too slow! Try being ageless instead.';
+      response.className = 'mt-6 text-xl font-bold text-purple-500 text-pop';
+      response.classList.remove('hidden');
+      
+      document.querySelector('#screen2').classList.add('shake-intense');
+      setTimeout(() => {
+        document.querySelector('#screen2').classList.remove('shake-intense');
+      }, 600);
+    }
+    
+    function correctAgeAnswer() {
+      playSuccessChime();
+      const response = document.getElementById('age-response');
+      response.innerHTML = '🎉 Correct! Acceptance is growth. ✨';
+      response.className = 'mt-6 text-xl font-bold text-emerald-500 text-pop';
+      response.classList.remove('hidden');
+      
+      triggerBalloons();
+      triggerSparkles();
+      triggerConfetti();
+      
+      // Extra visual celebration
+      document.querySelector('#screen2').classList.add('pulse-big');
+      setTimeout(() => {
+        document.querySelector('#screen2').classList.remove('pulse-big');
+      }, 500);
+      
+      document.getElementById('age-proceed').classList.remove('hidden');
+      document.getElementById('age-proceed').classList.add('bounce-in', 'glow-success');
+    }
+    
+    function personalityAnswer(option) {
+      const response = document.getElementById('personality-response');
+      const proceed = document.getElementById('personality-proceed');
+      
+      if (option === 'A') {
+        playWrongBuzz();
+        response.innerHTML = '😂 HAHAHAHA. Next.';
+        response.className = 'mt-6 text-xl font-bold text-pink-500 text-pop';
+        response.classList.remove('hidden');
+        document.querySelector('#screen3').classList.add('shake-intense', 'pulse-big');
+        triggerWrongConfetti();
+        setTimeout(() => {
+          document.querySelector('#screen3').classList.remove('shake-intense', 'pulse-big');
+        }, 600);
+      } else if (option === 'B') {
+        playSuccessChime();
+        response.innerHTML = '✨ Seen. Understood. Respected. ✨';
+        response.className = 'mt-6 text-xl font-bold text-teal-500 text-pop';
+        response.classList.remove('hidden');
+        triggerConfetti();
+        triggerBalloons();
+        document.querySelector('#screen3').classList.add('pulse-big');
+        setTimeout(() => {
+          document.querySelector('#screen3').classList.remove('pulse-big');
+        }, 500);
+        setTimeout(() => {
+          proceed.classList.remove('hidden');
+          proceed.classList.add('bounce-in', 'glow-success');
+        }, 300);
+      } else if (option === 'C') {
+        playWrongBuzz();
+        response.innerHTML = '🤥 This is a lie. Continue.';
+        response.className = 'mt-6 text-xl font-bold text-amber-500 text-pop';
+        response.classList.remove('hidden');
+        document.querySelector('#screen3').classList.add('shake-intense');
+        triggerWrongConfetti();
+        setTimeout(() => {
+          document.querySelector('#screen3').classList.remove('shake-intense');
+        }, 600);
+      }
+    }
+    
+    function skillAnswer(index) {
+      playSuccessChime();
+      const responses = [
+        '"Accurate." 💅',
+        '"Growth pending." 📈',
+        '"We love the denial phase." 🫠'
+      ];
+      
+      const response = document.getElementById('skill-response');
+      response.innerHTML = responses[index];
+      response.className = 'mt-6 text-xl font-bold text-emerald-600 text-pop';
+      response.classList.remove('hidden');
+      
+      triggerSparkles();
+      triggerBalloons();
+      document.querySelector('#screen4').classList.add('pulse-big');
+      setTimeout(() => {
+        document.querySelector('#screen4').classList.remove('pulse-big');
+      }, 500);
+      
+      setTimeout(() => {
+        document.getElementById('skill-proceed').classList.remove('hidden');
+        document.getElementById('skill-proceed').classList.add('bounce-in', 'glow-success', 'spin');
+      }, 800);
+    }
+    
+    function finalCelebration() {
+      playHappyBirthday();
+      const overlay = document.getElementById('final-overlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+      
+      // Massive celebration burst
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          triggerConfetti();
+          triggerBalloons();
+          triggerSparkles();
+        }, i * 400);
+      }
+    }
+    
+    function triggerWrongConfetti() {
+      const colors = ['#ef4444', '#dc2626', '#991b1b'];
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = Math.random() * 100 + '%';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+          confetti.style.animationDelay = Math.random() * 0.3 + 's';
+          document.body.appendChild(confetti);
+          setTimeout(() => confetti.remove(), 3000);
+        }, i * 30);
+      }
+    }
+    
+    function restartQuiz() {
+      document.getElementById('final-overlay').classList.add('hidden');
+      document.getElementById('final-overlay').classList.remove('flex');
+      
+      document.getElementById('age-response').classList.add('hidden');
+      document.getElementById('age-proceed').classList.add('hidden');
+      document.getElementById('personality-response').classList.add('hidden');
+      document.getElementById('personality-proceed').classList.add('hidden');
+      document.getElementById('skill-response').classList.add('hidden');
+      document.getElementById('skill-proceed').classList.add('hidden');
+      
+      const runawayBtn = document.getElementById('runaway-btn');
+      runawayBtn.style.transform = 'translateX(-50%)';
+      runawayCount = 0;
+      
+      goToScreen(1);
+    }
+    
+    // Initialize with confetti on load
+    setTimeout(() => triggerConfetti(), 500);
+    updateUI();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cdbe9d9726e8993',t:'MTc3MTA2NTI3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
