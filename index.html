@@ -337,15 +337,17 @@
      </div><button onclick="finalCelebration()" class="mt-8 bg-gradient-to-r from-amber-500 to-pink-500 hover:from-amber-600 hover:to-pink-600 text-white font-bold py-4 px-8 rounded-full text-xl shadow-xl transform hover:scale-105 transition-all duration-300 slide-up" style="animation-delay: 0.6s;"> 💖 End With Cake 🎂 </button>
     </div>
    </div><!-- Final Celebration Overlay -->
-   <div id="final-overlay" class="fixed inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-amber-500 flex-col items-center justify-center z-50 hidden">
-    <div class="text-center text-white p-8"><!-- Birthday Cake -->
-     <div class="mb-8 flex justify-center">
-      <svg viewbox="0 0 280 320" width="220" height="250" style="filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));"><!-- Cake Base Layer 1 --> <rect x="50" y="180" width="180" height="80" rx="8" fill="#8B4513" stroke="#654321" stroke-width="2" /> <!-- Cake Frosting Layer 1 --> <ellipse cx="140" cy="180" rx="95" ry="20" fill="#FF69B4" /> <path d="M 50 180 Q 50 160 140 150 Q 230 160 230 180" fill="#FFB6D9" opacity="0.8" /> <!-- Cake Base Layer 2 --> <rect x="60" y="110" width="160" height="80" rx="8" fill="#A0522D" stroke="#654321" stroke-width="2" /> <!-- Cake Frosting Layer 2 --> <ellipse cx="140" cy="110" rx="85" ry="18" fill="#FF1493" /> <path d="M 60 110 Q 60 95 140 88 Q 220 95 220 110" fill="#FFB6D9" opacity="0.6" /> <!-- Cake Top Layer --> <rect x="70" y="40" width="140" height="80" rx="8" fill="#D2691E" stroke="#654321" stroke-width="2" /> <!-- Cake Top Frosting --> <ellipse cx="140" cy="40" rx="75" ry="16" fill="#FF69B4" /> <path d="M 70 40 Q 70 25 140 18 Q 210 25 210 40" fill="#FFB6D9" opacity="0.7" /> <!-- Frosting Swirls and Texture --> <circle cx="90" cy="70" r="8" fill="#FFB6D9" opacity="0.5" /> <circle cx="140" cy="65" r="10" fill="#FFB6D9" opacity="0.5" /> <circle cx="190" cy="75" r="8" fill="#FFB6D9" opacity="0.5" /> <circle cx="110" cy="140" r="7" fill="#FFB6D9" opacity="0.5" /> <circle cx="170" cy="145" r="7" fill="#FFB6D9" opacity="0.5" /> <!-- Candles --> <g style="animation: flicker-candle 0.4s ease-in-out infinite;">
-        <rect x="120" y="10" width="6" height="20" fill="#FFFACD" stroke="#F0E68C" stroke-width="1" />
-        <path d="M 123 10 Q 120 0 123 -5 Q 126 0 123 10" fill="#FFD700" stroke="#FFA500" stroke-width="1" />
-       </g> <g style="animation: flicker-candle 0.4s ease-in-out infinite; animation-delay: 0.2s;">
-        <rect x="154" y="10" width="6" height="20" fill="#FFFACD" stroke="#F0E68C" stroke-width="1" />
-        <path d="M 157 10 Q 154 0 157 -5 Q 160 0 157 10" fill="#FFD700" stroke="#FFA500" stroke-width="1" />
+   <div id="final-overlay" class="fixed inset-0 bg-gradient-to-br from-pink-500 via-purple-500 to-amber-500 flex-col items-center justify-center z-50 hidden overflow-hidden"><!-- Luxury Floating Balloons Container -->
+    <div id="balloons-container" class="absolute inset-0 pointer-events-none"></div><!-- Sparkler Trail Canvas -->
+    <canvas id="sparkler-canvas" class="absolute inset-0 pointer-events-none" style="z-index: 100;"></canvas>
+    <div class="text-center text-white p-8 relative z-10"><!-- Birthday Cake -->
+     <div class="mb-8 flex justify-center relative">
+      <svg viewbox="0 0 280 320" width="220" height="250" style="filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));"><!-- Cake Base Layer 1 --> <rect x="50" y="180" width="180" height="80" rx="8" fill="#8B4513" stroke="#654321" stroke-width="2" /> <!-- Cake Frosting Layer 1 --> <ellipse cx="140" cy="180" rx="95" ry="20" fill="#FF69B4" /> <path d="M 50 180 Q 50 160 140 150 Q 230 160 230 180" fill="#FFB6D9" opacity="0.8" /> <!-- Cake Base Layer 2 --> <rect x="60" y="110" width="160" height="80" rx="8" fill="#A0522D" stroke="#654321" stroke-width="2" /> <!-- Cake Frosting Layer 2 --> <ellipse cx="140" cy="110" rx="85" ry="18" fill="#FF1493" /> <path d="M 60 110 Q 60 95 140 88 Q 220 95 220 110" fill="#FFB6D9" opacity="0.6" /> <!-- Cake Top Layer --> <rect x="70" y="40" width="140" height="80" rx="8" fill="#D2691E" stroke="#654321" stroke-width="2" /> <!-- Cake Top Frosting --> <ellipse cx="140" cy="40" rx="75" ry="16" fill="#FF69B4" /> <path d="M 70 40 Q 70 25 140 18 Q 210 25 210 40" fill="#FFB6D9" opacity="0.7" /> <!-- Frosting Swirls and Texture --> <circle cx="90" cy="70" r="8" fill="#FFB6D9" opacity="0.5" /> <circle cx="140" cy="65" r="10" fill="#FFB6D9" opacity="0.5" /> <circle cx="190" cy="75" r="8" fill="#FFB6D9" opacity="0.5" /> <circle cx="110" cy="140" r="7" fill="#FFB6D9" opacity="0.5" /> <circle cx="170" cy="145" r="7" fill="#FFB6D9" opacity="0.5" /> <!-- Candle 1 --> <rect x="110" y="5" width="12" height="25" fill="#FFFACD" stroke="#F0E68C" stroke-width="1" rx="1" /> <g id="candle-1" class="candle-flame" style="cursor: pointer;">
+        <path d="M 116 5 Q 114 -2 116 -8 Q 118 -2 116 5" fill="#FFD700" stroke="#FFA500" stroke-width="1" />
+        <path d="M 116 4 Q 115 0 116 -4 Q 117 0 116 4" fill="#FFFF00" opacity="0.7" />
+       </g> <!-- Candle 2 --> <rect x="158" y="5" width="12" height="25" fill="#FFFACD" stroke="#F0E68C" stroke-width="1" rx="1" /> <g id="candle-2" class="candle-flame" style="cursor: pointer;">
+        <path d="M 164 5 Q 162 -2 164 -8 Q 166 -2 164 5" fill="#FFD700" stroke="#FFA500" stroke-width="1" />
+        <path d="M 164 4 Q 163 0 164 -4 Q 165 0 164 4" fill="#FFFF00" opacity="0.7" />
        </g> <!-- Decorative Sprinkles --> <circle cx="85" cy="50" r="3" fill="#FFD700" /> <circle cx="110" cy="48" r="3" fill="#FF69B4" /> <circle cx="130" cy="46" r="3" fill="#FFD700" /> <circle cx="160" cy="49" r="3" fill="#FF69B4" /> <circle cx="190" cy="52" r="3" fill="#FFD700" /> <circle cx="75" cy="115" r="3" fill="#FFD700" /> <circle cx="125" cy="112" r="3" fill="#FF69B4" /> <circle cx="195" cy="118" r="3" fill="#FFD700" /> <!-- Cherry on Top --> <circle cx="140" cy="28" r="6" fill="#DC143C" stroke="#8B0000" stroke-width="1" /> <path d="M 140 22 Q 138 18 140 12" stroke="#228B22" stroke-width="2" fill="none" stroke-linecap="round" /> <!-- Celebration Elements Around Cake --> <text x="20" y="80" font-size="32">
         🎉
        </text> <text x="240" y="100" font-size="32">
@@ -385,6 +387,46 @@
         @keyframes sparkle-rotate {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float-balloon {
+          0% { transform: translateY(0) translateX(0) rotate(0deg); }
+          100% { transform: translateY(-150vh) translateX(var(--sway, 0px)) rotate(360deg); }
+        }
+
+        @keyframes sparkle-fade {
+          0% { opacity: 1; transform: scale(1); }
+          100% { opacity: 0; transform: scale(0.3); }
+        }
+
+        @keyframes candle-flicker-intense {
+          0%, 100% { transform: scaleY(1); filter: brightness(1); }
+          20% { transform: scaleY(1.3); filter: brightness(1.2); }
+          50% { transform: scaleY(0.9); filter: brightness(0.8); }
+          80% { transform: scaleY(1.15); filter: brightness(1.1); }
+        }
+
+        @keyframes candle-extinguish {
+          0% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.2); }
+          100% { opacity: 0; transform: scale(0.1); }
+        }
+
+        .luxury-balloon {
+          position: absolute;
+          font-size: 2.5rem;
+          opacity: 0.85;
+          filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+          animation: float-balloon linear forwards;
+        }
+
+        .candle-flame {
+          transform-origin: center bottom;
+          animation: candle-flicker-intense 0.3s ease-in-out infinite;
+        }
+
+        .candle-flame.extinguishing {
+          animation: candle-extinguish 0.6s ease-out forwards;
         }
       </style>
    </div>
@@ -563,41 +605,46 @@
     
     function playHappyBirthday() {
       const now = audioContext.currentTime;
-      // Upbeat, peppier Happy Birthday melody
+      // Ultra-peppier, faster Happy Birthday with chord accompaniment
       const melody = [
-        { freq: 262, duration: 0.3 },   // C
-        { freq: 262, duration: 0.3 },   // C
-        { freq: 294, duration: 0.6 },   // D
-        { freq: 262, duration: 0.6 },   // C
-        { freq: 349, duration: 0.6 },   // F
-        { freq: 330, duration: 0.9 },   // E
-        { freq: 262, duration: 0.3 },   // C
-        { freq: 262, duration: 0.3 },   // C
-        { freq: 294, duration: 0.6 },   // D
-        { freq: 262, duration: 0.6 },   // C
-        { freq: 392, duration: 0.6 },   // G
-        { freq: 349, duration: 0.9 },   // F
-        { freq: 262, duration: 0.3 },   // C
-        { freq: 262, duration: 0.3 },   // C
-        { freq: 523, duration: 0.6 },   // C high
-        { freq: 440, duration: 0.6 },   // A
-        { freq: 349, duration: 0.6 },   // F
+        { freq: 262, duration: 0.2 },   // C
+        { freq: 262, duration: 0.2 },   // C
+        { freq: 294, duration: 0.4 },   // D
+        { freq: 262, duration: 0.4 },   // C
+        { freq: 349, duration: 0.4 },   // F
         { freq: 330, duration: 0.6 },   // E
-        { freq: 294, duration: 1.2 }    // D
+        { freq: 262, duration: 0.2 },   // C
+        { freq: 262, duration: 0.2 },   // C
+        { freq: 294, duration: 0.4 },   // D
+        { freq: 262, duration: 0.4 },   // C
+        { freq: 392, duration: 0.4 },   // G
+        { freq: 349, duration: 0.6 },   // F
+        { freq: 262, duration: 0.2 },   // C
+        { freq: 262, duration: 0.2 },   // C
+        { freq: 523, duration: 0.4 },   // C high
+        { freq: 440, duration: 0.4 },   // A
+        { freq: 349, duration: 0.4 },   // F
+        { freq: 330, duration: 0.4 },   // E
+        { freq: 294, duration: 0.8 },   // D
+        // Bonus celebratory riff
+        { freq: 349, duration: 0.15 },  // F
+        { freq: 392, duration: 0.15 },  // G
+        { freq: 440, duration: 0.15 },  // A
+        { freq: 523, duration: 0.6 }    // C high (held)
       ];
       
       let totalTime = 0;
-      melody.forEach((note) => {
+      melody.forEach((note, index) => {
         const osc = audioContext.createOscillator();
         const gain = audioContext.createGain();
-        osc.type = 'sine';
+        osc.type = index < 19 ? 'sine' : 'triangle'; // Triangle for bonus riff for brightness
         osc.connect(gain);
         gain.connect(audioContext.destination);
         
         const startTime = now + totalTime;
         osc.frequency.setValueAtTime(note.freq, startTime);
         gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(0.35, startTime + 0.05);
+        gain.gain.linearRampToValueAtTime(0.4, startTime + 0.03);
         gain.gain.exponentialRampToValueAtTime(0.01, startTime + note.duration);
         
         osc.start(startTime);
@@ -696,7 +743,7 @@
       
       if (option === 'A') {
         playWrongBuzz();
-        response.innerHTML = '😂 HAHAHAHA. Next.';
+        response.innerHTML = '�� HAHAHAHA. Next.';
         response.className = 'mt-6 text-xl font-bold text-pink-500 text-pop';
         response.classList.remove('hidden');
         document.querySelector('#screen3').classList.add('shake-intense', 'pulse-big');
@@ -736,7 +783,7 @@
       playSuccessChime();
       const responses = [
         '"Accurate." 💅',
-        '"Growth pending." 📈',
+        '"Growth pending." ������',
         '"We love the denial phase." 🫠'
       ];
       
@@ -801,32 +848,189 @@
       }
     }
     
+    // Luxe balloon system
+    function createLuxeBalloonsEffect() {
+      const container = document.getElementById('balloons-container');
+      const balloonEmojis = ['🎈', '🎈', '💜', '🎈', '💖', '🎊', '🎉'];
+      
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const balloon = document.createElement('div');
+          balloon.className = 'luxury-balloon';
+          balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+          
+          const startX = Math.random() * 100;
+          const sway = (Math.random() - 0.5) * 300;
+          const duration = 10 + Math.random() * 6;
+          
+          balloon.style.left = startX + '%';
+          balloon.style.bottom = '-50px';
+          balloon.style.setProperty('--sway', sway + 'px');
+          balloon.style.animationDuration = duration + 's';
+          balloon.style.animationDelay = i * 0.15 + 's';
+          
+          container.appendChild(balloon);
+          
+          setTimeout(() => balloon.remove(), (duration + i * 0.15) * 1000);
+        }, i * 100);
+      }
+    }
+    
+    // Sparkler trail effect
+    function initSparklerTrail() {
+      const canvas = document.getElementById('sparkler-canvas');
+      const ctx = canvas.getContext('2d');
+      const overlay = document.getElementById('final-overlay');
+      
+      canvas.width = overlay.clientWidth;
+      canvas.height = overlay.clientHeight;
+      
+      const particles = [];
+      const pastelColors = ['#FFB6D9', '#E6B3FF', '#B3E5FF', '#B3F5E5', '#FFE6B3', '#F0E6FF'];
+      
+      let mouseX = canvas.width / 2;
+      let mouseY = canvas.height / 2;
+      
+      overlay.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        
+        // Create sparkles on mouse move
+        for (let i = 0; i < 3; i++) {
+          particles.push({
+            x: mouseX + (Math.random() - 0.5) * 20,
+            y: mouseY + (Math.random() - 0.5) * 20,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            life: 1,
+            color: pastelColors[Math.floor(Math.random() * pastelColors.length)],
+            size: Math.random() * 3 + 2
+          });
+        }
+      });
+      
+      overlay.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        mouseX = touch.clientX - rect.left;
+        mouseY = touch.clientY - rect.top;
+        
+        for (let i = 0; i < 3; i++) {
+          particles.push({
+            x: mouseX + (Math.random() - 0.5) * 20,
+            y: mouseY + (Math.random() - 0.5) * 20,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            life: 1,
+            color: pastelColors[Math.floor(Math.random() * pastelColors.length)],
+            size: Math.random() * 3 + 2
+          });
+        }
+      });
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life -= 0.02;
+          p.vy += 0.1; // gravity
+          
+          if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+          
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.life * 0.7;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    }
+    
+    // Candle blowing interaction
+    let blownCandles = new Set();
+    
+    function setupCandles() {
+      const svg = document.querySelector('svg');
+      if (!svg) return;
+      
+      const candle1 = svg.getElementById('candle-1');
+      const candle2 = svg.getElementById('candle-2');
+      
+      [candle1, candle2].forEach((candle, index) => {
+        if (!candle) return;
+        
+        candle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const candleId = index;
+          
+          if (blownCandles.has(candleId)) return;
+          
+          blownCandles.add(candleId);
+          candle.classList.add('extinguishing');
+          playSuccessChime();
+          
+          if (blownCandles.size === 2) {
+            // Both candles blown out!
+            setTimeout(() => {
+              playHappyBirthday();
+              triggerConfetti();
+              triggerBalloons();
+              triggerSparkles();
+              createLuxeConfettiImplosion();
+            }, 800);
+          }
+        });
+      });
+    }
+    
+    function createLuxeConfettiImplosion() {
+      const colors = ['#FFB6D9', '#E6B3FF', '#B3E5FF', '#B3F5E5', '#FFE6B3'];
+      
+      for (let burst = 0; burst < 3; burst++) {
+        setTimeout(() => {
+          for (let i = 0; i < 20; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (3 + Math.random() * 2) + 's';
+            confetti.style.animationDelay = Math.random() * 0.3 + 's';
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 5000);
+          }
+        }, burst * 500);
+      }
+    }
+    
     function finalCelebration() {
       playHappyBirthday();
       const overlay = document.getElementById('final-overlay');
       overlay.classList.remove('hidden');
       overlay.classList.add('flex');
       
-      // Massive celebration bursts with timing
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          triggerConfetti();
-          triggerBalloons();
-          triggerSparkles();
-          // Extra confetti waves
-          triggerWrongConfetti();
-        }, i * 300);
-      }
+      // Initialize all luxe animations
+      createLuxeBalloonsEffect();
+      initSparklerTrail();
+      setupCandles();
       
-      // Additional staggered celebrations
-      setTimeout(() => {
-        for (let j = 0; j < 3; j++) {
-          setTimeout(() => {
-            triggerBalloons();
-            triggerSparkles();
-          }, j * 200);
-        }
-      }, 1500);
+      // Initial subtle confetti burst (just 1-2, not overwhelming)
+      for (let i = 0; i < 2; i++) {
+        setTimeout(() => {
+          createLuxeConfettiImplosion();
+        }, i * 800);
+      }
     }
     
     function triggerWrongConfetti() {
@@ -869,5 +1073,5 @@
     setTimeout(() => triggerConfetti(), 500);
     updateUI();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cdc43add34c4700',t:'MTc3MTA2ODk1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cdc676341ed8993',t:'MTc3MTA3MDQxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
